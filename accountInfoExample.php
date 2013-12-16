@@ -1,27 +1,25 @@
 <?php
 // api dependencies
-// svn checkout http://google-api-php-client.googlecode.com/svn/trunk/ google-api-php-client-read-only
-require_once('google-api-php-client-read-only/src/Google_Client.php');
-require_once('google-api-php-client-read-only/src/contrib/Google_AnalyticsService.php');
+require 'vendor/autoload.php';
 
 // create client object and set app name
 $client = new Google_Client();
-$client->setApplicationName(''); // name of your app
+$client->setApplicationName('Service Account-project'); // name of your app
 
 // set assertion credentials
 $client->setAssertionCredentials(
-    new Google_AssertionCredentials(
-        '', // email you added to GA
-        array('https://www.googleapis.com/auth/analytics.readonly'),
-       file_get_contents('') // keyfile you downloaded
-    )
+	new Google_Auth_AssertionCredentials(
+		'[ID]@developer.gserviceaccount.com', // email you added to GA
+		array('https://www.googleapis.com/auth/analytics.readonly'),
+		file_get_contents('[KEY-FILE]') // keyfile you downloaded
+	)
 );
 
 // other settings
-$client->setClientId(''); // from API console
+$client->setClientId('[ID].apps.googleusercontent.com'); // from API console
 
 // create service and get data
-$service = new Google_AnalyticsService($client);
+$service = new Google_Service_Analytics($client);
 
 var_dump($service->management_accounts->listManagementAccounts());
 ?>
